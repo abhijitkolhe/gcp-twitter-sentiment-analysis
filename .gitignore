@@ -13,3 +13,11 @@
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
+
+.ipynb_checkpoints/
+
+# ignore temporary data directory
+data/
+
+# ignore model directory
+model/
