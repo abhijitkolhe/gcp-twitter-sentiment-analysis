@@ -5,7 +5,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 	"os"
 	"strconv"
@@ -110,6 +109,9 @@ func CrawlingTwitter(ctx context.Context, m PubSubMessage) error {
 	for _, data := range twitterResp.Data {
 		result := t.Publish(ctx, &pubsub.Message{
 			Data: []byte(data.Text),
+			Attributes: map[string]string{
+				"id": data.Id,
+			},
 		})
 		wg.Add(1)
 		go func(res *pubsub.PublishResult) {
