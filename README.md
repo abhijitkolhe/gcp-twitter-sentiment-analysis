@@ -135,7 +135,7 @@ python dataflow/predict.py --runner DataflowRunner \
 # Run a whole pipeline
 Just run your scheduler to start streaming.
 ```
-# run Cloud scheduler named "cron-pubsub-trigger"
+# run Cloud Scheduler named "cron-pubsub-trigger"
 gcloud scheduler jobs run cron-pubsub-trigger
 ```
 
