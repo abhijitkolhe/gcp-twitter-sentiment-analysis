@@ -1,5 +1,5 @@
 # GCP Twitter Sentiment Analysis
-This repository contains various codes in GCP which implement Twitter sentiment analysis pipeline.
+Create Twitter sentiment Inference pipeline from scratch using Google Cloud Platform.
 
 ## Architecture
 ![architecture](https://user-images.githubusercontent.com/17065620/101309089-d5e50680-388e-11eb-80c6-006de9e9b64c.png)
