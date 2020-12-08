@@ -1,10 +1,10 @@
 # GCP Twitter Sentiment Analysis
 This repository contains various codes in GCP which implement Twitter sentiment analysis pipeline.
 
-# Architecture
+## Architecture
 ![architecture](https://user-images.githubusercontent.com/17065620/101309089-d5e50680-388e-11eb-80c6-006de9e9b64c.png)
 
-# What is it for?
+## What is it for?
 This project aims to mimic data ingestion and create inference pipeline using whth GCP (Google Cloud Platform).
 
 The project contains 3 modules.
@@ -12,12 +12,12 @@ The project contains 3 modules.
 - Cloud Functions that calls Twitter Recent API
 - Cloud Dataflow that predicts polarity based on ingested text data
 
-# Prerequisites
+## Prerequisites
 This project is tested on Python 3.8.5 (Training, Local Dataflow Run), Go 1.13 (Cloud Functions).
 
 Other environments should be tested later.
 
-# Training Model
+## Training Model
 You can train your own model using [train/train.ipynb](train-model/train.ipynb) file.
 
 This requires tensorflow 2.3.1, tweet-preprocessor 0.6.0, pandas 1.1.4. The installation script is included in the Notebook file.
@@ -36,7 +36,7 @@ gsutil cp -R train-model/model/ gs://some-bucket
 gsutil ls gs://some-bucket/train/model
 ```
 
-# Add Cloud Scheduler (+ Pub/Sub Topic)
+## Add Cloud Scheduler (+ Pub/Sub Topic)
 You can create a cronjob using Cloud Scheduler. Cloud Scheduler publishes to Pub/Sub topic and Cloud Functions will subscribe that topic.
 
 You can create Pub/Sub topic and Cloud Scheduler using gcloud tool.
@@ -49,7 +49,7 @@ gcloud scheduler jobs create pubsub cron-pubsub-trigger --schedule="* * * * *" -
 gcloud scheduler jobs list
 ```
 
-# Add Cloud Functions (+ Pub/Sub Topic)
+## Add Cloud Functions (+ Pub/Sub Topic)
 [cloud-functions/functions.go](cloud-functions/function.go) calls Twitter Recent API and retrieves data for a minute (from 2 minutes ago ~ 1 minute ago). The query set in the function is "corona" and the number of maximum result is "10". You can modify "searchingQuery" and "maxResults" variables to change the behavior. You can also add environment variables to dynamically change those settings.
 
 There are several environment variables you should set in this function.
@@ -73,7 +73,7 @@ gcloud functions deploy twitter-data-ingestion --source=cloud-functions/function
 gcloud functions list
 ```
 
-# Run Dataflow Pipeline
+## Run Dataflow Pipeline
 You could run a Dataflow pipeline in your local machine or in GCP.
 Before running the pipeline, you should create BigQuery table. The table contains integer column "id" (Twitter post ID) and "prob" (probability of being positive).
 
@@ -132,15 +132,15 @@ python dataflow/predict.py --runner DataflowRunner \
   --setup_file dataflow/setup.py
 ```
 
-# Run a whole pipeline
+## Run a whole pipeline
 Just run your scheduler to start streaming.
 ```
 # run Cloud Scheduler named "cron-pubsub-trigger"
 gcloud scheduler jobs run cron-pubsub-trigger
 ```
 
-# Caveats
+## Caveats
 - Due to the Cloud Functions is called on-demand, the Pub/Sub client will be created at the time it is triggered. This causes the model is loaded every time the function is called. If you are using a server and the client instance is to be made once, it may not be a problem.
 
-# License
+## License
 [MIT](https://choosealicense.com/licenses/mit/)
